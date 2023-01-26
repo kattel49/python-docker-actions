@@ -13,7 +13,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: install all required packages
-      run: pip3 install -r requiremnts.txt
+      run: pip3 install -r requirements.txt
     
     - name: start server
       run: python3 main.py
