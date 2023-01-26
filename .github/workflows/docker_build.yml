@@ -1,0 +1,39 @@
+name: Create Docker image and publish to Docker hub
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: check out repo
+      uses: actions/checkout@v3
+
+    - name: install all required packages
+      run: pip3 install -r requiremnts.txt
+    
+    - name: start server
+      run: python3 main.py
+    
+    - name: test with pytest
+      id: test
+      run: pytest
+    
+    - name: build docker image
+      run: docker build -t kattel49/custom:1.0 .
+    
+    - name: login to Docker Hub
+      run: docker login -u $username -p $password
+      env:
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}
+    
+    - name: push docker image to docker hub
+      run: docker push kattel49/custom:1.0
+
+
+
+
